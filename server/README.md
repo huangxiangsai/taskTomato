@@ -24,19 +24,19 @@ OS X  为例：
 
 步骤如下：
 
-1. 下载源码到本地
+* 下载源码到本地
 
 ```
 curl -O https://fastdl.mongodb.org/osx/mongodb-osx-ssl-x86_64-3.4.1.tgz
 ```
 
-2. 解压文件
+* 解压文件
 
 ```
 tar -zxvf mongodb-osx-ssl-x86_64-3.4.1.tgz
 ```
 
-3. 将解压后的文件内容，拷贝到需要的指定目录(例如：~/mongodb)
+* 将解压后的文件内容，拷贝到需要的指定目录(例如：~/mongodb)
 
 ```
 // 需先创建目录
@@ -49,7 +49,7 @@ cp -R -n mongodb-osx-ssl-x86_64-3.4.1/   ~/mongodb
 
 还需注意，新创建的目录需要有用户权限，
 
-4. 配置环境变量,这步骤也可省略，只要你不嫌执行命令麻烦
+* 配置环境变量,这步骤也可省略，只要你不嫌执行命令麻烦
 
 在~/.bashrc文件中添加以下内容：
 
@@ -59,7 +59,7 @@ export PATH="$PATH:<your-mongodb-directory>"
 
 这是的`<your-mongodb-directory>`就是上面的`~/mongodb`
 
-5. 通过命令启动mongodb
+* 通过命令启动mongodb
 
 在执行命令前，还需添加，存放数据的目录
 
