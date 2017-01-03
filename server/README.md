@@ -12,9 +12,9 @@ MongoDB 是一个基于分布式文件存储的数据库。由 C++ 语言编写�
 
 MongoDB 是一个介于关系数据库和非关系数据库之间的产品，是非关系数据库当中功能最丰富，最像关系数据库的。
 
-[官方的mongoDB安装](https://docs.mongodb.com/manual/administration/install-community/)
+官方提供了多种方法安装[mongoDB](https://docs.mongodb.com/manual/administration/install-community/)
 
-OS X  为例：
+这里拿OS X为例，记录下我的安装过程：
 
 安装的mongoDB版本为`3.4.1`
 
@@ -78,7 +78,32 @@ mongod
 >	It looks like you are trying to access MongoDB over HTTP on the native driver port.
 
 
-/usr/local/
+至此最简单的mongodb服务已经起来了。
+
+当然你也可以做一些其他的设置比如：端口（默认为`27017`），存放文件的目录(默认为`//data/db`),可以通过对命令`mongod`后添加参数的方式来实现
+
+```
+mongod --port 10086  --dbpath ~/mongodb/data/db
+```
+
+相关的配置还有很多，你也可以把这些配置写配置文件里，只需在执行命令时指定配置文件即可。
+
+```
+mongod -f ~/mongodb/mongodb.conf
+```
+
+`mongodb.conf`文件内容为： 
+
+```
+net:
+	port: 10086
+
+storage
+	dbPath: ~/mongodb/data/db
+
+```
+
+更详细的配置请查看[官方文档](https://docs.mongodb.com/manual/reference/configuration-options/)
 
 
 [mongoose](http://www.nodeclass.com/api/mongoose.html)
