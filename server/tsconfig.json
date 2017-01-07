@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": false,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": false,
+        "outDir": "./build",
+        "sourceRoot" : "./src",
+        "rootDir": "./src",
+        "isolatedModules" : false,
+        "pretty" : true,
+        "noResolve":true
+    }
+}
