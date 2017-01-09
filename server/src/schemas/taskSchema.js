@@ -4,8 +4,8 @@ var Schema = mongoose.Schema;
 var taskSchema = new Schema({
   title:        String,  // 任务描述
   userId : {type : Schema.Types.ObjectId , ref : 'user'},
-  subTask : [{title : String , createTime : Date ,status :Number }] // 子任务
-  createTime:   Date,   // 创建时间
+  subTask : [{title : String , createTime : Date ,status :Number }], // 子任务
+  createTime :   Date,   // 创建时间
   finishTime :  Date,   // 任务完成时间
   status :      Number, //  未完成， 已完成 ， 删除
   doTomatoCount : Number , // 已做番茄数

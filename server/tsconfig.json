@@ -4,12 +4,14 @@
         "noImplicitAny": false,
         "removeComments": true,
         "preserveConstEnums": true,
-        "sourceMap": false,
+        "sourceMap": true,
         "outDir": "./build",
         "sourceRoot" : "./src",
         "rootDir": "./src",
         "isolatedModules" : false,
         "pretty" : true,
-        "noResolve":true
+        "noResolve":true,
+        "target": "es6"
+        
     }
 }
