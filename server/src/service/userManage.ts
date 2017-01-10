@@ -40,7 +40,6 @@ var CryptoJS = require("crypto-js");
                     return User.create( userInfo);
                  }
              }).then(function(user){
-                console.log('createUser',user);
                 resolve({code : 200 ,data : user, msg : 'register success'});
                 // saved!
              },function(err){
@@ -60,11 +59,8 @@ var CryptoJS = require("crypto-js");
                 let pw = CryptoJS.AES.decrypt(user.password, 'devsai.com 2017').toString(CryptoJS.enc.Utf8);
                 if(password === pw){
                     let id = user._id;
-                    console.log('mail',user.mail);
                     let token = that.generateToken(user.mail);
-                    console.log('token', token);
-                    user.token = token;
-                    
+                    user.token = token;                    
                     return User.findByIdAndUpdate(user._id,{token : token,loginDate : Date.now()});   
                 }else{
                     reject({code : -1 , msg : '用户名或密码不正确'});
@@ -83,7 +79,6 @@ var CryptoJS = require("crypto-js");
      // 生成token
      generateToken(mail:String){  
          try {
-             console.log('method generateToken: ',mail);
             return CryptoJS.HmacMD5(mail,'devsai_'+Date.now() ).toString();     
          } catch (error) {
              console.log('生成token出错: ',error);

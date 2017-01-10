@@ -1,7 +1,9 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+import { Counter } from './counterSchema';
 
-var userSchema = new Schema({
+let userSchema = new Schema({
+  _id : String,
   name:        String,  // 用户名
   password : String, // 
   mail : String ,
@@ -12,6 +14,16 @@ var userSchema = new Schema({
   actiCode : String  // 激活码
 });
 
-
+userSchema.pre('save', function(next) {
+  var doc = this;
+  Counter.findByIdAndUpdate({_id: 'entityId'}, {$inc: { seq: 1} }, function(error, counter) {
+    if(error)
+    return next(error);
+    doc._id = counter.seq;
+    next();
+  });
+});
 
 export let User  =  mongoose.model('user', userSchema);
+
+
