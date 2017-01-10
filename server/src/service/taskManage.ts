@@ -1,9 +1,9 @@
 const fs = require('fs');
 
-class TaskManage {
+export class TaskManage {
 
 	// 创建任务
-	createTask(){
+	createTask(userId,){
 
 	}
 

@@ -9,7 +9,7 @@ var CryptoJS = require("crypto-js");
      userId : string;
      constructor() {
          
-     }
+     } 
 
      //创建用户
      createUser(userInfo){

@@ -1,22 +1,22 @@
 
+import {Router} from './router';
 import { RouterInterface } from '../routerInterface';
 import { UserManage } from '../service/userManage';
 
 /**
  * UserRouter
  */
-export class UserRouter {
-    router : RouterInterface;
+
+export class UserRouter extends Router{
     userManage : UserManage = new UserManage();
     constructor(router) {
-        this.router = router;
+        super(router);
         this.initUserRouter();
     }
 
     initUserRouter(){
         let that = this;
         let router : RouterInterface = this.router;
-        
         // 用户注册
         router.post('/register',async (ctx)=> {
             try {
@@ -30,6 +30,8 @@ export class UserRouter {
         // 用户登录
         router.post('/login',async (ctx)=> {
             try {
+                let token = that.getToken(ctx);
+                console.log('token',token);
                 let body = ctx.request.body;
                 let { mail , password}  = body;
                 ctx.body = await that.userManage.login(body.mail,password);     
