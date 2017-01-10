@@ -18,6 +18,15 @@ export class UserRouter extends Router{
         let router : RouterInterface = this.router;
         
         // 创建任务
-        
+        router.post('/task', async (ctx) => {
+            try {
+                let userId : String = '1';
+                let title : String = ctx.request.body.title;
+                ctx.body =await that.taskManage.createTask(userId,title);
+            } catch (error) {
+                console.log(error);
+            }
+            
+        });
     }
 }  
