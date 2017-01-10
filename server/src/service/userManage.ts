@@ -1,7 +1,7 @@
  /**
   * UserManage
   */
-import {User} from "../schemas/userSchema";
+import { User } from '../schemas/userSchema';
 const util = require('util');
 var CryptoJS = require("crypto-js");
 
@@ -23,56 +23,87 @@ var CryptoJS = require("crypto-js");
                  return reject({code : -1 , msg : '请填写密码'});
              }
 
-             let user = {
-                 createTime : Date.now(),
-                 name : userInfo.name,
-                 mail : userInfo.mail,
-                 password : userInfo.password
-             }
-
-             userInfo = user;
-             userInfo.password = CryptoJS.AES.encrypt( userInfo.password, 'devsai.com 2017').toString();
-
-             User.create( userInfo, function (err, user) {
+             // 判断邮箱是否被占用
+            let promise =  User.findOne({ mail: userInfo.mail }).exec();
+             promise.then(function(user){
+                 if(user && user._id){
+                     reject({code : -1 , msg : '邮箱已存在'});
+                 }else{
+                    user = {
+                        createTime : Date.now(),
+                        name : userInfo.name,
+                        mail : userInfo.mail,
+                        password : userInfo.password
+                    } 
+                    userInfo = user;
+                    userInfo.password = CryptoJS.AES.encrypt( userInfo.password, 'devsai.com 2017').toString();
+                    return User.create( userInfo);
+                 }
+             }).then(function(user){
                 console.log('createUser',user);
-                if (err) return reject(err);
-                resolve({code : 200 , msg : 'register success'});
+                resolve({code : 200 ,data : user, msg : 'register success'});
                 // saved!
-            })
+             },function(err){
+                 if (err) return reject({code : -1 , msg : '系统故障，注册失败'});
+             });
          });
  
      }
 
      //用户登录
      login(mail :String,password : String){
+         let that = this;
          return new Promise(function(resolve, reject){
-            User.findOne({ mail: mail }).exec(function(err, user){
+            let promise = User.findOne({ mail: mail }).exec();
+            promise.then(function(user){
+                
                 let pw = CryptoJS.AES.decrypt(user.password, 'devsai.com 2017').toString(CryptoJS.enc.Utf8);
                 if(password === pw){
-                    let id = user.id;
-                    let token = this.generateToken(user.mail);
-                    User.findByIdAndUpdate(user.id,user,function(err){
-                        if(err){
-                            reject({code : -1 , msg : '系统出错'});
-                        }else{
-                            resolve(id+"&"+token);
-                        }
-                    });   
+                    let id = user._id;
+                    console.log('mail',user.mail);
+                    let token = that.generateToken(user.mail);
+                    console.log('token', token);
+                    user.token = token;
+                    
+                    return User.findByIdAndUpdate(user._id,{token : token,loginDate : Date.now()});   
                 }else{
                     reject({code : -1 , msg : '用户名或密码不正确'});
                 }
+            }).then(function(user){
+                let query = User.findById(user._id).exec();
+                query.then(function(user){
+                    resolve({code : 200, data : user._id +'&'+user.token});
+                })   
+            },function(){
+                reject({code : -1 , msg : '系统出错'});
             });
          });
      }
 
      // 生成token
-     generateToken(mail){        
-        return CryptoJS.HmacMD5(mail,'devsai_'+Date.now).toString();
+     generateToken(mail:String){  
+         try {
+             console.log('method generateToken: ',mail);
+            return CryptoJS.HmacMD5(mail,'devsai_'+Date.now() ).toString();     
+         } catch (error) {
+             console.log('生成token出错: ',error);
+         }      
+        
+     }
+
+     // 获得用户列表
+     getUserlist(){
+         return User.find().exec();
+     }
+
+     // 清空用户
+     clearUser(){
+         return User.find().remove();
      }
 
      
      // 检测token
-     valdataToken(userId,token){
+     valdataToken(userId:String,token:String){
          return new Promise(function(resolve, reject){
             User.findOne({ id: userId }).exec(function(err, user){
                 if( !err && user.token === token){

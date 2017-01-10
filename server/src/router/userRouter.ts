@@ -22,7 +22,8 @@ export class UserRouter {
             try {
                 ctx.body = await that.userManage.createUser(ctx.request.body);     
             } catch (error) {
-                console.error(error);
+                console.info('error',error);
+                ctx.body = error;
             }
         })
 
@@ -34,7 +35,16 @@ export class UserRouter {
                 ctx.body = await that.userManage.login(body.mail,password);     
             } catch (error) {
                 console.error(error);
+                ctx.body = error;
             }
+        })
+
+        router.get('/getusers',async (ctx) => {
+            ctx.body = await that.userManage.getUserlist();
+        })
+
+        router.get('/clearUser',async (ctx) => {
+            ctx.body = await that.userManage.clearUser();
         })
     }
 }  
