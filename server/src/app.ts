@@ -1,4 +1,5 @@
 import { UserRouter } from './router/userRouter';
+import { TaskRouter } from './router/taskRouter';
 const Koa = require('koa');
 const views = require('koa-views');
 const router = require('koa-router')();
@@ -9,25 +10,10 @@ connect();
 
 var app =new Koa();
 
-let id : number = 0;
-
 new UserRouter(router);
-
-
-// router.get('/task/:id', (ctx) =>{
-//     console.log(ctx);
-//     id = ctx.prams.id;
-//     ctx.body = '{code : 200 , id : '+id+'}';
-// } )
-
-// router.post('/getTask/:id',(ctx) => {
-//     console.log(11);
-//     console.log(ctx.params.id);
-// })
-
+new TaskRouter(router);
 
 app
-  
   .use(bodyparser() )
   .use(router.routes())
   .use(router.allowedMethods())

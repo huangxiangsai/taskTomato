@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var taskSchema = new Schema({
   title:        String,  // 任务描述
-  userId : {type : Schema.Types.ObjectId , ref : 'user'},
+  userId : {type : String},
   subTask : [{title : String , createTime : Date ,status :Number }], // 子任务
   createTime :   Date,   // 创建时间
   finishTime :  Date,   // 任务完成时间

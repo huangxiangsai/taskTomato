@@ -1,22 +1,43 @@
 import {Task} from "../schemas/taskSchema";
+import { User } from '../schemas/userSchema';
 
 export class TaskManage {
 
 	// 创建任务
 	createTask(userId : String,title : String){
 		return new Promise(function(resolve,reject){
-			let promise = Task.create({userId : userId , title : title});
-			promise.then(function(task){
+			console.log(userId);
+			let promise = User.findOne({_id : userId}).exec();
+			promise.then(function(user){
+				console.log('user _id',user);
+				return Task.create({userId : user._id , title : title});
+			}).then(function(task){
 				resolve({code : 200 , data : {id : task._id},msg : 'success'});
-			},function(){
+			},function(err){
+				console.log('createTask',err);
 				reject({code : -1 , msg : '任务创建失败'});
 			});
+			// let promise = Task.create({userId : userId , title : title});
+			
 		});
 	}
 
 	// 设置置顶
 	setUpTop(id){
 
+	}
+
+	// 
+	getTaskList(userId){
+		return new Promise(function(resolve,reject){
+			let promise = Task.find({userId : userId }).exec();
+			promise.then(function(tasks){
+				resolve({code : 200 , data : tasks ,msg : 'success'});
+			},function(err){
+				console.log('getTaskList',err);
+				reject({code : -1 , msg : '获取任务列表失败'});
+			});
+		});
 	}
 
 	// 排序{id }
