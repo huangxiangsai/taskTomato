@@ -29,6 +29,15 @@ export class TaskRouter extends Router{
             }
         });
 
+        router.get('/setUpTop/:taskId', async (ctx) => {
+            try {
+                ctx.body = await that.taskManage.setUpTop(ctx.params.taskId);
+            } catch (error) {
+                console.log('/setUpTop/'+ctx.params.taskId,error);
+                ctx.body = error;
+            }
+        })
+
         router.get('/taskList', async (ctx) => {
             try {
                 let userId : String = '4';

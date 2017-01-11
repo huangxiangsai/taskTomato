@@ -1,4 +1,4 @@
-import {Task} from "../schemas/taskSchema";
+import { Task } from '../schemas/taskSchema';
 import { User } from '../schemas/userSchema';
 
 export class TaskManage {
@@ -10,29 +10,44 @@ export class TaskManage {
 			let promise = User.findOne({_id : userId}).exec();
 			promise.then(function(user){
 				console.log('user _id',user);
-				return Task.create({userId : user._id , title : title , createTime: Date.now()});
+				return Task.find().count();
+				
+			}).then(function(count){
+				return Task.create({userId : userId , title : title , createTime: Date.now() , sort : count});
 			}).then(function(task){
 				resolve({code : 200 , data : {id : task._id},msg : 'success'});
 			},function(err){
 				console.log('createTask',err);
 				reject({code : -1 , msg : '任务创建失败'});
-			});
-			// let promise = Task.create({userId : userId , title : title});
-			
+			});			
 		});
 	}
 
 	// 设置置顶
-	setUpTop(id){
-
+	setUpTop(id:String){
+		return new Promise(function(resolve,reject){
+			let promise = Task.findByIdAndUpdate(id,{upTop : true});   
+			promise.then(function(task){
+				resolve({code : 200 , data : task , msg : '设置置顶成功'});
+			});
+		});
 	}
 
-	// 
-	getTaskList(userId){
+	// 获取任务列表
+	getTaskList(userId:String){
+		let taskList = [];
 		return new Promise(function(resolve,reject){
-			let promise = Task.find({userId : userId }).exec();
+			let promise = Task.find({userId : userId }).where('upTop').equals(true).exec();
 			promise.then(function(tasks){
-				resolve({code : 200 , data : tasks ,msg : 'success'});
+				if(tasks){
+					taskList = tasks;
+				}
+				return Task.find({userId : userId }).where('upTop').equals(false).sort('sort').exec();
+			},function(err){
+				// reject({code : -1 , msg : '获取任务列表失败'});
+			}).then(function(tasks){
+				taskList = taskList.concat(tasks);
+				resolve({code : 200 , data : taskList ,msg : 'success'});
 			},function(err){
 				console.log('getTaskList',err);
 				reject({code : -1 , msg : '获取任务列表失败'});
@@ -69,5 +84,7 @@ export class TaskManage {
 	getTaskToday(){
  
 	}
+
+	
 
 }
