@@ -34,7 +34,11 @@ export class UserRouter extends Router{
                 console.log('token',token);
                 let body = ctx.request.body;
                 let { mail , password}  = body;
-                ctx.body = await that.userManage.login(body.mail,password);     
+                 
+                let result:{data? : String} = await that.userManage.login(body.mail,password); 
+                token = result.data;    
+                ctx.set('Set-Cookie','user_token='+token+';' );
+                ctx.body = result;
             } catch (error) {
                 console.error(error);
                 ctx.body = error;
