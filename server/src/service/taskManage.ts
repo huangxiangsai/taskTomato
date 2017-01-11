@@ -34,15 +34,15 @@ export class TaskManage {
 	}
 
 	// 获取任务列表
-	getTaskList(userId:String){
+	getTaskList(userId:String,status : Number){
 		let taskList = [];
 		return new Promise(function(resolve,reject){
-			let promise = Task.find({userId : userId }).where('upTop').equals(true).exec();
+			let promise = Task.find({userId : userId }).where('upTop').equals(true).and([{status : status}]).sort('sort').exec();
 			promise.then(function(tasks){
 				if(tasks){
 					taskList = tasks;
 				}
-				return Task.find({userId : userId }).where('upTop').equals(false).sort('sort').exec();
+				return Task.find({userId : userId }).where('upTop').equals(false).and([{status : status}]).sort('sort').exec();
 			},function(err){
 				// reject({code : -1 , msg : '获取任务列表失败'});
 			}).then(function(tasks){

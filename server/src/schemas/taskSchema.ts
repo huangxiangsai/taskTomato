@@ -7,7 +7,7 @@ var taskSchema = new Schema({
   subTask : [{title : String , createTime : Date ,status :Number }], // 子任务
   createTime :   Date,   // 创建时间
   finishTime :  Date,   // 任务完成时间
-  status :  {type:Number , default: 0}, //  未完成， 已完成 ， 删除
+  status :  {type:Number , default: 0}, //  0 未完成， 1 已完成 ，-1 删除
   doTomatoCount : Number , // 已做番茄数
   preCount : Number ,   // 预期的翻墙数
   backup : String ,     // 任务的备注说明

@@ -41,7 +41,7 @@ export class TaskRouter extends Router{
         router.get('/taskList', async (ctx) => {
             try {
                 let userId : String = '4';
-                ctx.body = await that.taskManage.getTaskList(userId);
+                ctx.body = await that.taskManage.getTaskList(userId,0);
             } catch (error) {
                 console.log('/taskList',error);
                 ctx.body = error;
