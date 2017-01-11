@@ -14,7 +14,7 @@ var taskSchema = new Schema({
   remindDate : Date ,   // 提醒的日期
   LoopType : Number , // 提醒的循环方式， 从不、每天，每周，两周，每月，每年
   sort : Number ,     // 排序 
-  upTop : Boolean     // 置顶
+  upTop : {type : Boolean , default : false}    // 置顶
 });
 
 export let Task  =  mongoose.model('task', taskSchema);

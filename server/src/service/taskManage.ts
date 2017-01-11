@@ -10,7 +10,7 @@ export class TaskManage {
 			let promise = User.findOne({_id : userId}).exec();
 			promise.then(function(user){
 				console.log('user _id',user);
-				return Task.create({userId : user._id , title : title});
+				return Task.create({userId : user._id , title : title , createTime: Date.now()});
 			}).then(function(task){
 				resolve({code : 200 , data : {id : task._id},msg : 'success'});
 			},function(err){

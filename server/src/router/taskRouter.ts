@@ -22,9 +22,20 @@ export class TaskRouter extends Router{
             try {
                 let userId : String = '4';
                 let title : String = ctx.request.body.title;
-                ctx.body =await that.taskManage.createTask(userId,title);
+                ctx.body = await that.taskManage.createTask(userId,title);
             } catch (error) {
                 console.log('/task',error);
+                ctx.body = error;
+            }
+        });
+
+        router.get('/taskList', async (ctx) => {
+            try {
+                let userId : String = '4';
+                ctx.body = await that.taskManage.getTaskList(userId);
+            } catch (error) {
+                console.log('/taskList',error);
+                ctx.body = error;
             }
         });
     }
