@@ -1,10 +1,16 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var subTaskSchema = new Schema({
+  title : String , 
+  createTime : Date ,
+  status : {type : Number ,default : 0} //  0 未完成  ， 1 完成
+})
+
 var taskSchema = new Schema({
   title:        String,  // 任务描述
   userId : {type : String},
-  subTask : [{title : String , createTime : Date ,status :Number }], // 子任务
+  subTask : [subTaskSchema], // 子任务
   createTime :   Date,   // 创建时间
   finishTime :  Date,   // 任务完成时间
   status :  {type:Number , default: 0}, //  0 未完成， 1 已完成 ，-1 删除
