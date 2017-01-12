@@ -82,8 +82,40 @@ export class TaskManage {
 	}
 
 	// 创建子任务
-	createSubTask(id,subTitle){
+	createSubTask(taskId,subTitle){
+		return new Promise(function(resolve,reject){
+			let promise =  Task.findById(taskId).exec();   
+			promise.then(function(task){
+				task.subTask.push({title : subTitle, createTime : Date.now() })
+				return task.save();
+			}).then(function(task){
+				console.log(task);
+				resolve({code : 200 , msg : '创建子任务成功'});
+			} ,function(err){
+				console.log(err);
+				reject({code : -1 , msg : '创建子任务失败'});
+			} );
+		});
+	}
 
+	/**
+	 * 标记子任务完成
+	 */
+	finishSubTask(taskId,subTaskId){
+		return new Promise(function(resolve,reject){
+			let promise =  Task.findById(taskId).exec();   
+			promise.then(function(task){
+				let subTask = task.subTask.id(subTaskId);
+				subTask.status = 1;
+				return task.save();
+			}).then(function(task){
+				console.log(task);
+				resolve({code : 200 , msg : '标记子任务完成成功'});
+			} ,function(err){
+				console.log(err);
+				reject({code : -1 , msg : '标记子任务完成失败'});
+			} );
+		});
 	}
 
 	// 完成任务

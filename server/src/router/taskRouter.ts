@@ -31,6 +31,34 @@ export class TaskRouter extends Router{
             }
         });
 
+        /**
+         * 创建子任务
+         */
+        router.post('/createSubTask', async (ctx) =>{
+            try {
+                let title : String = ctx.request.body.subTitle;
+                let taskId : String = ctx.request.body.taskId;
+                ctx.body = await that.taskManage.createSubTask(taskId,title);
+            } catch (error) {
+                console.log('/createSubTask',error);
+                ctx.body = error;
+            }
+        })
+
+        /**
+         * 标记子任务完成
+         */
+        router.post('/finishSubTask', async (ctx) =>{
+            try {
+                let subTaskId : String = ctx.request.body.subTaskId;
+                let taskId : String = ctx.request.body.taskId;
+                ctx.body = await that.taskManage.finishSubTask(taskId,subTaskId);
+            } catch (error) {
+                console.log('/subTaskId ',error);
+                ctx.body = error;
+            }
+        })
+
         
         /**
          * 任务置顶
