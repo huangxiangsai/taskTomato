@@ -3,7 +3,9 @@ import { User } from '../schemas/userSchema';
 
 export class TaskManage {
 
-	// 创建任务
+	/**
+	 * 创建任务
+	 */
 	createTask(userId : String,title : String){
 		return new Promise(function(resolve,reject){
 			console.log(userId);
@@ -23,7 +25,9 @@ export class TaskManage {
 		});
 	}
 
-	// 设置置顶
+	/**
+	 * 设置置顶
+	 */
 	setUpTop(id:String){
 		return new Promise(function(resolve,reject){
 			let promise = Task.findByIdAndUpdate(id,{upTop : true}).exec('update');   
@@ -35,7 +39,9 @@ export class TaskManage {
 		});
 	}
 
-	// 取消置顶
+	/**
+	 * 取消置顶
+	 */
 	unSetUpTop(id : String){
 		return new Promise(function(resolve,reject){
 			let promise = Task.findByIdAndUpdate(id,{upTop : false}).exec('update');   
@@ -47,7 +53,9 @@ export class TaskManage {
 		});
 	}
 
-	// 获取任务列表
+	/**
+	 * 获取任务列表
+	 */
 	getTaskList(userId:String,status : Number){
 		let taskList = [];
 		return new Promise(function(resolve,reject){
@@ -69,7 +77,9 @@ export class TaskManage {
 		});
 	}
 
-	// 排序{id }
+	/**
+	 * 排序{id }
+	 */
 	setTasksSort(taskId,sort){
 		return new Promise(function(resolve,reject){
 			let promise =  Task.findByIdAndUpdate(taskId,{sort : sort}).exec();   
@@ -81,7 +91,9 @@ export class TaskManage {
 		});
 	}
 
-	// 创建子任务
+	/**
+	 * 创建子任务
+	 */
 	createSubTask(taskId,subTitle){
 		return new Promise(function(resolve,reject){
 			let promise =  Task.findById(taskId).exec();   
@@ -118,7 +130,9 @@ export class TaskManage {
 		});
 	}
 
-	// 完成任务
+	/**
+	 * 完成任务
+	 */
 	finishTask(taskId){
 		return new Promise(function(resolve,reject){
 			let promise =  Task.findByIdAndUpdate(taskId,{finishTime : Date.now(),status : T_STATUS.DONE }).exec(); 
@@ -131,7 +145,9 @@ export class TaskManage {
 		});
 	}
 
-	// 删除任务
+	/**
+	 * 删除任务
+	 */
 	deleteTask(taskId){
 		return new Promise(function(resolve,reject){
 			let promise =  Task.findByIdAndUpdate(taskId,{status : T_STATUS.DEL }).exec(); 
@@ -144,12 +160,16 @@ export class TaskManage {
 		});
 	}
 
-	// 获得指定日期的任务  status 任务的状态
+	/**
+	 * 获得指定日期的任务  status 任务的状态
+	 */
 	getTaskListByDate(status){
 
 	}
 
-	// 获得当天的任务
+	/**
+	 * 获得当天的任务
+	 */
 	getTaskToday(){
  
 	}
