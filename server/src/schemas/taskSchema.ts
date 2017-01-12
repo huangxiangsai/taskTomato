@@ -18,3 +18,18 @@ var taskSchema = new Schema({
 });
 
 export let Task  =  mongoose.model('task', taskSchema);
+
+export let T_STATUS = {
+  /**
+  * 未完成任务
+  **/ 
+  UNDO : 0,
+  /**
+  * 完成任务
+  **/ 
+  DONE : 1,
+  /**
+  * 删除任务
+  **/
+  DEL :  -1
+}
