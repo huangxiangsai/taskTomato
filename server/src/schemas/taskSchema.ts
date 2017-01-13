@@ -23,7 +23,7 @@ var taskSchema = new Schema({
   upTop : {type : Boolean , default : false}    // 置顶
 });
 
-export let Task  =  mongoose.model('task', taskSchema);
+export let Task  =  mongoose.model('task', taskSchema,'task');
 
 export enum T_STATUS {
   /**
