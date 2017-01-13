@@ -4,7 +4,9 @@ import { Tomato } from '../schemas/tomatoSchema';
 
 export class TomatoManage {
 
-	// 保存番茄
+	/**
+	 * 保存番茄
+	 */
 	create(tomato : Object){
 		return new Promise(function(resolve,reject){
 			let promise = Tomato.create(tomato);
