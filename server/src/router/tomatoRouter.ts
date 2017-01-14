@@ -35,5 +35,17 @@ export class TomatoRouter extends Router{
             }
         } )
 
+        router.get('/getTomatoToday/:status', async (ctx) => {
+            
+            try {
+                let status = ctx.params.status;
+                let userId = '4';
+                ctx.body = await that.tomatoManage.getTomatoToday(userId,status);     
+            } catch (error) {
+                console.info('error',error);
+                ctx.body = error;
+            }
+        })
+
     }
 }  
