@@ -39,7 +39,9 @@ export class TomatoManage {
 
 	}
 
-	// 获得今天的番茄，包括 完成或打断的
+	/**
+	 * 获得今天的番茄，包括 完成或打断的
+	 */
 	getTomatoToday(userId,status){
 		let date = new Date();
 		let startTime = date.getTime() - (date.getHours() * 3600000 + date.getMinutes() * 60000 + date.getSeconds() * 1000);

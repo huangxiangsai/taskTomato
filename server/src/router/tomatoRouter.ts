@@ -18,6 +18,9 @@ export class TomatoRouter extends Router{
         let that = this;
         let router : RouterInterface = this.router;
 
+        /**
+         * 创建番茄
+         */
         router.post('/createTomato' , async (ctx)=>{
             try {
                 let tomato = {
@@ -35,8 +38,10 @@ export class TomatoRouter extends Router{
             }
         } )
 
+        /**
+         * 获得指定状态的当天番茄列表
+         */
         router.get('/getTomatoToday/:status', async (ctx) => {
-            
             try {
                 let status = ctx.params.status;
                 let userId = '4';
