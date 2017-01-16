@@ -7,6 +7,8 @@ import { TomatoManage } from '../service/tomatoManage';
  * TomatoRouter
  */
 
+let userId = '4';
+
 export class TomatoRouter extends Router{
     tomatoManage : TomatoManage = new TomatoManage();
     constructor(router) {
@@ -25,7 +27,7 @@ export class TomatoRouter extends Router{
             try {
                 let tomato = {
                     taskId : ctx.request.body.taskId,
-                    userId : '4',
+                    userId : userId,
                     startDate : ctx.request.body.startDate,
                     endDate : ctx.request.body.endData,
                     title : ctx.request.body.title,
@@ -44,7 +46,6 @@ export class TomatoRouter extends Router{
         router.get('/getTomatoToday/:status', async (ctx) => {
             try {
                 let status = ctx.params.status;
-                let userId = '4';
                 ctx.body = await that.tomatoManage.getTomatoToday(userId,status);     
             } catch (error) {
                 console.info('error',error);
@@ -58,8 +59,7 @@ export class TomatoRouter extends Router{
                 let pageNumber = ctx.request.body.pageNumber;
                 let size = 30;
                 let startTime = ctx.request.body.startTime;
-                let endTime = ctx.request.body.ednTime;
-                let userId = '4';
+                let endTime = ctx.request.body.endTime;
                 ctx.body = await that.tomatoManage.getTomatoByDate(userId,startTime,endTime,pageNumber,size,status);     
             } catch (error) {
                 console.info('error',error);

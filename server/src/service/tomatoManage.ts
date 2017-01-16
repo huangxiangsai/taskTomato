@@ -44,12 +44,16 @@ export class TomatoManage {
 	 */
 	getTomatoByDate(userId,startTime,endTime,pageNumber,size,status){
 		return new Promise(function(resolve,reject){
+			let total;
 			let query = Tomato.find({userId : userId, status:status , startDate:  { $gte: startTime, $lt: endTime  } });
-			let promise = query.sort('startDate').skip((pageNumber-1)*size).limit(size);
-			promise.then(function(tomatos){
-				let total = query.count();
-				resolve({coe : 200 , data : {total : total, pageNumber : pageNumber , size : size , data : tomatos}});
+			let promise = query.count();
+			promise.then(function(_count){
+				total = _count;
+				return Tomato.find({userId : userId, status:status , startDate:  { $gte: startTime, $lt: endTime  } }).sort('startDate').skip((pageNumber-1)*size).limit(size);
+			}).then(function(tomatos){
+				resolve({code : 200 , data : { total : total, pageNumber : pageNumber , size : size , data : tomatos}});
 			},function(err){
+				console.log('getTomatoByDate',err);
 				reject({code : -1 , msg : '获得番茄列表失败'});
 			});
 		});
