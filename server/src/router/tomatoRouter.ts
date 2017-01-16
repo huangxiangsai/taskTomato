@@ -52,5 +52,20 @@ export class TomatoRouter extends Router{
             }
         })
 
+        router.post('/getTomatoList/:status', async (ctx) => {
+            try {
+                let status = ctx.params.status;
+                let pageNumber = ctx.request.body.pageNumber;
+                let size = 30;
+                let startTime = ctx.request.body.startTime;
+                let endTime = ctx.request.body.ednTime;
+                let userId = '4';
+                ctx.body = await that.tomatoManage.getTomatoByDate(userId,startTime,endTime,pageNumber,size,status);     
+            } catch (error) {
+                console.info('error',error);
+                ctx.body = error;
+            }
+        } )
+
     }
 }  
